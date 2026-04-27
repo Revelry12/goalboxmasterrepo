@@ -1,16 +1,31 @@
-import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useState, useMemo } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
 const Detail = () => {
   const { state } = useLocation();
+  const navigate = useNavigate();
   const lapangan = state?.lapangan ?? {
     nama: 'Lapangan Makmur Jaya',
     harga: '100.000',
     lokasi: 'Jl. Raya Makmur Suri No. 123',
     rating: '4.8',
   };
+
+  const pricePerHour = useMemo(
+    () => (lapangan?.harga ? parseInt(String(lapangan.harga).replace(/\./g, ''), 10) : 0),
+    [lapangan?.harga]
+  );
+
+  const [jamMulai, setJamMulai] = useState('19:00');
+  const [jamSelesai, setJamSelesai] = useState('21:00');
+
+  const durasi = Math.max(
+    parseInt(jamSelesai.split(':')[0], 10) - parseInt(jamMulai.split(':')[0], 10),
+    0
+  );
+  const totalHarga = (durasi * pricePerHour).toLocaleString('id-ID');
   const fasilitasArena = [
     {
       nama: 'Parkir',
@@ -74,15 +89,15 @@ const Detail = () => {
   const jadwalTersedia = [
     {
       jam: '08:00',
-      status: ['Bebas', 'Penuh', 'Bebas', 'Bebas', 'Menipis', 'Penuh', 'Penuh']
+      status: ['Tersedia', 'Sudah Dipesan', 'Tersedia', 'Tersedia', 'Sisa Sedikit', 'Sudah Dipesan', 'Sudah Dipesan']
     },
     {
       jam: '19:00',
-      status: ['Penuh', 'Penuh', 'Penuh', 'Penuh', 'Penuh', 'Penuh', 'Penuh']
+      status: ['Sudah Dipesan', 'Sudah Dipesan', 'Sudah Dipesan', 'Sudah Dipesan', 'Sudah Dipesan', 'Sudah Dipesan', 'Sudah Dipesan']
     },
     {
       jam: '21:00',
-      status: ['Menipis', 'Bebas', 'Bebas', 'Bebas', 'Menipis', 'Penuh', 'Penuh']
+      status: ['Sisa Sedikit', 'Tersedia', 'Tersedia', 'Tersedia', 'Sisa Sedikit', 'Sudah Dipesan', 'Sudah Dipesan']
     }
   ];
 
@@ -92,14 +107,25 @@ const Detail = () => {
 
       {/* ===== MAIN CONTENT ===== */}
       <main className="max-w-7xl mx-auto px-6 lg:px-8 py-8 mb-12">
-        {/* Breadcrumb */}
-        <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs font-medium text-gray-500 mb-6">
-          <Link to="/" className="hover:text-white transition-colors">Beranda</Link>
-          <span>/</span>
-          <a href="/#lapangan" className="hover:text-white transition-colors">Lapangan</a>
-          <span>/</span>
-          <span className="text-brand-400" aria-current="page">{lapangan.nama}</span>
-        </nav>
+        {/* Back button + breadcrumb */}
+        <div className="flex items-center justify-between mb-6 gap-4 flex-wrap">
+          <button
+            onClick={() => navigate(-1)}
+            className="inline-flex items-center gap-2 text-sm font-medium text-gray-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg px-4 py-2 transition-colors group"
+          >
+            <svg className="w-4 h-4 transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+              <path d="M19 12H5M12 19l-7-7 7-7" />
+            </svg>
+            Kembali
+          </button>
+          <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs font-medium text-gray-500">
+            <Link to="/" className="hover:text-white transition-colors">Beranda</Link>
+            <span>/</span>
+            <a href="/#lapangan" className="hover:text-white transition-colors">Lapangan</a>
+            <span>/</span>
+            <span className="text-brand-400" aria-current="page">{lapangan.nama}</span>
+          </nav>
+        </div>
 
         {/* Image Gallery */}
         <section aria-label="Galeri Foto" className="grid grid-cols-3 gap-4 h-[400px] mb-8 rounded-2xl overflow-hidden">
@@ -271,12 +297,12 @@ const Detail = () => {
                           </td>
                           {jadwal.status.map((status, j) => (
                             <td key={j} className={`py-3 px-2 ${j === jadwal.status.length - 1 ? '' : 'border-r border-white/5'}`}>
-                              {status === 'Bebas' ? (
-                                <div className="bg-brand-900/50 text-brand-300 py-1.5 px-2 rounded font-medium text-center border border-brand-500/20">Bebas</div>
-                              ) : status === 'Menipis' ? (
-                                <div className="bg-orange-500/10 text-orange-400 py-1.5 px-2 rounded font-medium text-center border border-orange-500/20">Menipis</div>
+                              {status === 'Tersedia' ? (
+                                <div className="bg-brand-900/50 text-brand-300 py-1.5 px-2 rounded font-medium text-center border border-brand-500/20">Tersedia</div>
+                              ) : status === 'Sisa Sedikit' ? (
+                                <div className="bg-orange-500/10 text-orange-400 py-1.5 px-2 rounded font-medium text-center border border-orange-500/20">Sisa Sedikit</div>
                               ) : (
-                                <div className="bg-white/5 text-gray-500 py-1.5 px-2 rounded text-center border border-transparent line-through">Penuh</div>
+                                <div className="bg-white/5 text-gray-500 py-1.5 px-2 rounded text-center border border-transparent line-through">Sudah Dipesan</div>
                               )}
                             </td>
                           ))}
@@ -294,12 +320,12 @@ const Detail = () => {
                   <span>TERSEDIA</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <div className="w-2 h-2 rounded-full border border-gray-600"></div>
-                  <span>SUDAH DIPESAN</span>
-                </div>
-                <div className="flex items-center gap-1.5">
                   <div className="w-2 h-2 rounded-full bg-orange-400"></div>
                   <span>SISA SEDIKIT</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <div className="w-2 h-2 rounded-full border border-gray-600"></div>
+                  <span>SUDAH DIPESAN</span>
                 </div>
               </div>
             </section>
@@ -328,7 +354,11 @@ const Detail = () => {
                   <div className="grid grid-cols-2 gap-3">
                     <div>
                       <label className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-1.5 block">Jam Mulai</label>
-                      <select className="w-full bg-[#0a1128] border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-brand-500 transition-colors">
+                      <select
+                        value={jamMulai}
+                        onChange={(e) => setJamMulai(e.target.value)}
+                        className="w-full bg-[#0a1128] border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-brand-500 transition-colors"
+                      >
                         <option>19:00</option>
                         <option>20:00</option>
                         <option>21:00</option>
@@ -336,7 +366,11 @@ const Detail = () => {
                     </div>
                     <div>
                       <label className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-1.5 block">Jam Selesai</label>
-                      <select className="w-full bg-[#0a1128] border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-brand-500 transition-colors">
+                      <select
+                        value={jamSelesai}
+                        onChange={(e) => setJamSelesai(e.target.value)}
+                        className="w-full bg-[#0a1128] border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-brand-500 transition-colors"
+                      >
                         <option>21:00</option>
                         <option>22:00</option>
                         <option>23:00</option>
@@ -347,11 +381,11 @@ const Detail = () => {
                   <div className="border-t border-white/10 pt-4 mt-2">
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-sm text-gray-400">Durasi</span>
-                      <span className="text-sm text-white font-medium">2 Jam</span>
+                      <span className="text-sm text-white font-medium">{durasi} Jam</span>
                     </div>
                     <div className="flex items-center justify-between mb-5">
                       <span className="text-sm text-gray-400">Total Pembayaran</span>
-                      <span className="text-lg font-bold text-white">Rp 200.000</span>
+                      <span className="text-lg font-bold text-white">Rp {totalHarga}</span>
                     </div>
                   </div>
 

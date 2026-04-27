@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import StepTimeSelection from '../components/booking/StepTimeSelection';
@@ -38,6 +38,7 @@ const STEPS = [
 
 const Booking = () => {
   const { state } = useLocation();
+  const navigate = useNavigate();
   const lapangan = state?.lapangan;
   const pricePerHour = lapangan?.harga
     ? parseInt(lapangan.harga.replace(/\./g, ''), 10)
@@ -68,6 +69,17 @@ const Booking = () => {
       {/* Stepper */}
       <div className="bg-[#060d1f] border-b border-white/10 pt-24 pb-8">
         <div className="max-w-3xl mx-auto px-6">
+          <div className="mb-6">
+            <button
+              onClick={() => navigate(-1)}
+              className="inline-flex items-center gap-2 text-sm font-medium text-gray-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg px-4 py-2 transition-colors group"
+            >
+              <svg className="w-4 h-4 transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                <path d="M19 12H5M12 19l-7-7 7-7" />
+              </svg>
+              Kembali
+            </button>
+          </div>
           <div className="flex items-center justify-between">
             {STEPS.map((step, index) => (
               <React.Fragment key={step.id}>

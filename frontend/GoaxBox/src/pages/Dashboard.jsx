@@ -291,6 +291,12 @@ const Dashboard = () => {
 
             {/* Search & Profile */}
             <div className="flex items-center gap-4">
+              <Link to="/" className="hidden sm:inline-flex items-center gap-2 text-sm font-medium text-gray-400 hover:text-white transition-colors group">
+                <svg className="w-4 h-4 transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                  <path d="M19 12H5M12 19l-7-7 7-7" />
+                </svg>
+                Beranda
+              </Link>
               <div className="hidden md:flex items-center bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 w-64">
                 <svg className="w-4 h-4 text-gray-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
                   <circle cx="11" cy="11" r="8" />
