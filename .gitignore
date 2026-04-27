@@ -1,0 +1,22 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+.fleet/
+.zed/
+
+# Claude Code workspace
+.claude/
+
+# Local logs
+logs/
+*.log
+
+# Node
+node_modules/
+
+# Env (defense in depth — masing-masing project juga sudah ignore)
+.env
+.env.local
+.env.production
