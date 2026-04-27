@@ -20,15 +20,20 @@ const Login = () => {
     setError('');
 
     setTimeout(() => {
-      if (email === 'admin@goalbox.com' && password === 'password') {
+      const isAdmin = email === 'admin123@mail.com' && password === 'password';
+      const isCustomer = email === 'customer@futsal.test' && password === 'password';
+
+      if (isAdmin || isCustomer) {
         login();
         if (from) {
           navigate(from.pathname, { state: from.state, replace: true });
-        } else {
+        } else if (isAdmin) {
           navigate('/dashboard');
+        } else {
+          navigate('/');
         }
       } else {
-        setError('Kredensial tidak valid. Silakan coba lagi.');
+        setError('Email atau password salah. Silakan coba lagi.');
         setIsLoading(false);
       }
     }, 1000);
@@ -110,10 +115,10 @@ const Login = () => {
       </div>
 
       {/* Right Panel - Login Form */}
-      <div className="flex-1 flex flex-col bg-white">
+      <div className="flex-1 flex flex-col bg-[#060d1f]">
         {/* Back to Home */}
         <div className="flex justify-end p-6 lg:p-8">
-          <Link to="/" className="flex items-center gap-2 text-gray-500 hover:text-gray-800 transition-colors text-sm font-medium group">
+          <Link to="/" className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-sm font-medium group">
             <svg className="w-4 h-4 transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
               <path d="M19 12H5M12 19l-7-7 7-7" />
             </svg>
@@ -124,22 +129,22 @@ const Login = () => {
         {/* Form Container */}
         <div className="flex-1 flex items-center justify-center px-6 lg:px-8">
           <div className="w-full max-w-md animate-fade-in-up">
-            <h2 className="text-3xl font-bold text-gray-900 mb-2">Masuk</h2>
-            <p className="text-gray-500 mb-8">
+            <h2 className="text-3xl font-bold text-white mb-2">Masuk</h2>
+            <p className="text-gray-400 mb-8">
               Belum punya akun?{' '}
-              <Link to="#" className="text-brand-600 font-semibold hover:text-brand-700 transition-colors">Daftar sekarang</Link>
+              <Link to="#" className="text-brand-400 font-semibold hover:text-brand-300 transition-colors">Daftar sekarang</Link>
             </p>
 
             {/* Error Messages */}
             {error && (
-              <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl animate-scale-in">
+              <div className="mb-6 p-4 bg-red-900/20 border border-red-500/30 rounded-xl animate-scale-in">
                 <div className="flex items-center gap-2">
-                  <svg className="w-5 h-5 text-red-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                  <svg className="w-5 h-5 text-red-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
                     <circle cx="12" cy="12" r="10" />
                     <line x1="15" y1="9" x2="9" y2="15" />
                     <line x1="9" y1="9" x2="15" y2="15" />
                   </svg>
-                  <span className="text-red-600 text-sm font-medium">{error}</span>
+                  <span className="text-red-400 text-sm font-medium">{error}</span>
                 </div>
               </div>
             )}
@@ -147,10 +152,10 @@ const Login = () => {
             <form onSubmit={handleLogin}>
               {/* Email Field */}
               <div className="mb-5">
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">Email</label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
+                    <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
                       <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                     </svg>
                   </div>
@@ -160,7 +165,7 @@ const Login = () => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="nama@email.com"
-                    className="input-field w-full pl-12 pr-4 py-3.5 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none text-sm"
+                    className="w-full pl-12 pr-4 py-3.5 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-brand-500 transition-colors text-sm"
                     required
                     autoComplete="email"
                   />
@@ -170,12 +175,12 @@ const Login = () => {
               {/* Password Field */}
               <div className="mb-5">
                 <div className="flex items-center justify-between mb-2">
-                  <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
-                  <Link to="#" className="text-sm text-brand-600 font-medium hover:text-brand-700 transition-colors">Lupa password?</Link>
+                  <label htmlFor="password" className="block text-sm font-medium text-gray-300">Password</label>
+                  <Link to="#" className="text-sm text-brand-400 font-medium hover:text-brand-300 transition-colors">Lupa password?</Link>
                 </div>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
+                    <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
                       <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
                       <path d="M7 11V7a5 5 0 0110 0v4" />
                     </svg>
@@ -186,14 +191,14 @@ const Login = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="••••••••"
-                    className="input-field w-full pl-12 pr-12 py-3.5 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none text-sm"
+                    className="w-full pl-12 pr-12 py-3.5 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-brand-500 transition-colors text-sm"
                     required
                     autoComplete="current-password"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute inset-y-0 right-0 pr-4 flex items-center password-toggle text-gray-400"
+                    className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-500 hover:text-gray-300 transition-colors"
                   >
                     {showPassword ? (
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
@@ -215,9 +220,9 @@ const Login = () => {
                 <input
                   type="checkbox"
                   id="remember"
-                  className="w-4 h-4 rounded border-gray-300 text-brand-600 focus:ring-brand-500 cursor-pointer"
+                  className="w-4 h-4 rounded border-white/20 bg-white/5 text-brand-600 focus:ring-brand-500 cursor-pointer"
                 />
-                <label htmlFor="remember" className="ml-2.5 text-sm text-gray-600 cursor-pointer select-none">
+                <label htmlFor="remember" className="ml-2.5 text-sm text-gray-400 cursor-pointer select-none">
                   Ingat saya
                 </label>
               </div>
@@ -247,17 +252,24 @@ const Login = () => {
               </button>
             </form>
 
-            {/* Dummy Credentials Info */}
-            <div className="mt-6 p-4 bg-blue-50 border border-blue-100 rounded-xl">
+            {/* Demo Credentials */}
+            <div className="mt-6 p-4 bg-brand-900/20 border border-brand-500/20 rounded-xl">
               <div className="flex items-start gap-2">
-                <svg className="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                <svg className="w-5 h-5 text-brand-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
                   <circle cx="12" cy="12" r="10" />
                   <path d="M12 16v-4M12 8h.01" />
                 </svg>
                 <div>
-                  <p className="text-blue-700 text-xs font-semibold mb-1">Demo Credentials</p>
-                  <p className="text-blue-600 text-xs">Email: <span className="font-mono font-medium">admin@goalbox.com</span></p>
-                  <p className="text-blue-600 text-xs">Password: <span className="font-mono font-medium">password</span></p>
+                  <p className="text-brand-300 text-xs font-semibold mb-2">Akun Demo</p>
+                  <p className="text-gray-400 text-xs mb-1">
+                    <span className="text-gray-500">Admin →</span>{' '}
+                    <span className="font-mono text-gray-300">admin123@mail.com</span>
+                  </p>
+                  <p className="text-gray-400 text-xs mb-2">
+                    <span className="text-gray-500">Customer →</span>{' '}
+                    <span className="font-mono text-gray-300">customer@futsal.test</span>
+                  </p>
+                  <p className="text-gray-500 text-xs">Password: <span className="font-mono text-gray-300">password</span></p>
                 </div>
               </div>
             </div>
@@ -265,7 +277,7 @@ const Login = () => {
         </div>
 
         {/* Footer */}
-        <div className="text-center py-6 text-gray-400 text-xs">
+        <div className="text-center py-6 text-gray-600 text-xs">
           &copy; {new Date().getFullYear()} GoalBox Futsal. All rights reserved.
         </div>
       </div>
