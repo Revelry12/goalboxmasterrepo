@@ -14,32 +14,27 @@ const Login = () => {
 
   const from = location.state?.from;
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setError('');
 
-    setTimeout(() => {
-      const isAdmin = email === 'admin123@mail.com' && password === 'password';
-      const isCustomer = email === 'customer@futsal.test' && password === 'password';
+    const result = await login(email, password);
 
-      if (isAdmin || isCustomer) {
-        const userData = isAdmin
-          ? { name: 'Admin Utama', email, role: 'admin' }
-          : { name: 'Customer Demo', email, role: 'customer' };
-        login(userData);
-        if (from) {
-          navigate(from.pathname, { state: from.state, replace: true });
-        } else if (isAdmin) {
-          navigate('/dashboard');
-        } else {
-          navigate('/');
-        }
-      } else {
-        setError('Email atau password salah. Silakan coba lagi.');
-        setIsLoading(false);
-      }
-    }, 1000);
+    if (!result.ok) {
+      setError(result.error);
+      setIsLoading(false);
+      return;
+    }
+
+    const isAdmin = result.user?.role === 'admin';
+    if (from) {
+      navigate(from.pathname, { state: from.state, replace: true });
+    } else if (isAdmin) {
+      navigate('/dashboard');
+    } else {
+      navigate('/');
+    }
   };
 
   return (

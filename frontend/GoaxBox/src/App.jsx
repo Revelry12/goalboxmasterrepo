@@ -30,12 +30,12 @@ function App() {
               <Dashboard />
             </ProtectedRoute>
           } />
-          <Route path="/detail" element={
+          <Route path="/detail/:id" element={
             <ProtectedRoute>
               <Detail />
             </ProtectedRoute>
           } />
-          <Route path="/booking" element={
+          <Route path="/booking/:id" element={
             <ProtectedRoute>
               <Booking />
             </ProtectedRoute>
