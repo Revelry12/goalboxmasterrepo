@@ -6,11 +6,14 @@ import Dashboard from './pages/Dashboard';
 import Detail from './pages/Detail';
 import Booking from './pages/Booking';
 
-const ProtectedRoute = ({ children }) => {
-  const { isLoggedIn } = useAuth();
+const ProtectedRoute = ({ children, adminOnly = false }) => {
+  const { isLoggedIn, isAdmin } = useAuth();
   const location = useLocation();
   if (!isLoggedIn) {
     return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+  if (adminOnly && !isAdmin) {
+    return <Navigate to="/" replace />;
   }
   return children;
 };
@@ -22,8 +25,16 @@ function App() {
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/detail" element={<Detail />} />
+          <Route path="/dashboard" element={
+            <ProtectedRoute adminOnly>
+              <Dashboard />
+            </ProtectedRoute>
+          } />
+          <Route path="/detail" element={
+            <ProtectedRoute>
+              <Detail />
+            </ProtectedRoute>
+          } />
           <Route path="/booking" element={
             <ProtectedRoute>
               <Booking />

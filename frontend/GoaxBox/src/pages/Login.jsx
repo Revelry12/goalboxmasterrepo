@@ -24,7 +24,10 @@ const Login = () => {
       const isCustomer = email === 'customer@futsal.test' && password === 'password';
 
       if (isAdmin || isCustomer) {
-        login();
+        const userData = isAdmin
+          ? { name: 'Admin Utama', email, role: 'admin' }
+          : { name: 'Customer Demo', email, role: 'customer' };
+        login(userData);
         if (from) {
           navigate(from.pathname, { state: from.state, replace: true });
         } else if (isAdmin) {

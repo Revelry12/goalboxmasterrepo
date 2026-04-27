@@ -29,24 +29,27 @@ const Landing = () => {
 
   const lapanganUnggulan = [
     {
-      nama: 'Arena Pro Blue',
+      nama: 'Lapangan A',
+      jenis: 'Vinyl',
       rating: '4.7',
-      lokasi: 'Sudirman, Jakarta',
-      harga: '250.000',
+      lokasi: 'Batam Centre',
+      harga: '120.000',
       gambar: '/image.png'
     },
     {
-      nama: 'Elite Parquet Court',
+      nama: 'Lapangan B',
+      jenis: 'Rumput Sintetis',
       rating: '4.8',
-      lokasi: 'Kuningan, Jakarta',
-      harga: '300.000',
+      lokasi: 'Nagoya, Batam',
+      harga: '150.000',
       gambar: '/image.png'
     },
     {
-      nama: 'Green Turf Arena',
+      nama: 'Lapangan C',
+      jenis: 'Interlock',
       rating: '4.9',
-      lokasi: 'Senayan, Jakarta',
-      harga: '225.000',
+      lokasi: 'Sekupang, Batam',
+      harga: '100.000',
       gambar: '/image.png'
     }
   ];
@@ -61,8 +64,8 @@ const Landing = () => {
           <path d="M21 21l-4.35-4.35" />
         </>
       ),
-      bg: 'bg-brand-50 border border-brand-100',
-      iconColor: 'text-brand-600'
+      bg: 'bg-brand-600/15 border border-brand-500/30',
+      iconColor: 'text-brand-400'
     },
     {
       title: 'Pilih Jadwal',
@@ -75,8 +78,8 @@ const Landing = () => {
           <line x1="3" y1="10" x2="21" y2="10" />
         </>
       ),
-      bg: 'bg-brand-50 border border-brand-100',
-      iconColor: 'text-brand-600'
+      bg: 'bg-brand-600/15 border border-brand-500/30',
+      iconColor: 'text-brand-400'
     },
     {
       title: 'Bayar',
@@ -87,8 +90,8 @@ const Landing = () => {
           <line x1="1" y1="10" x2="23" y2="10" />
         </>
       ),
-      bg: 'bg-brand-50 border border-brand-100',
-      iconColor: 'text-brand-600'
+      bg: 'bg-brand-600/15 border border-brand-500/30',
+      iconColor: 'text-brand-400'
     },
     {
       title: 'Main!',
@@ -122,7 +125,7 @@ const Landing = () => {
             <div>
               <div className="inline-flex items-center gap-2 bg-brand-600/15 border border-brand-500/20 rounded-full px-4 py-1.5 mb-8 animate-fade-in-up" style={{ opacity: 0 }} data-animate="true">
                 <span className="w-2 h-2 rounded-full bg-brand-400 animate-pulse"></span>
-                <span className="text-brand-300 text-xs font-semibold tracking-wide uppercase">Pesan Futsal Sekarang</span>
+                <span className="text-brand-300 text-xs font-semibold tracking-wide uppercase">Booking Lapangan Online</span>
               </div>
 
               <h1 className="text-4xl lg:text-5xl xl:text-6xl font-extrabold text-white leading-tight mb-6 animate-fade-in-up delay-100" style={{ opacity: 0 }} data-animate="true">
@@ -215,19 +218,19 @@ const Landing = () => {
       </section>
 
       {/* ===== STATS SECTION ===== */}
-      <section className="bg-white py-16 lg:py-20">
+      <section className="bg-[#060d1f] border-y border-white/10 py-16 lg:py-20">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid grid-cols-3 gap-8 max-w-3xl mx-auto text-center">
             <div className="animate-count-up" style={{ opacity: 0 }} data-animate="true">
-              <p className="text-3xl lg:text-4xl font-extrabold text-gray-900">10+</p>
+              <p className="text-3xl lg:text-4xl font-extrabold text-white">10+</p>
               <p className="text-gray-500 text-xs font-semibold tracking-wider uppercase mt-2">Lapangan Tersedia</p>
             </div>
             <div className="animate-count-up delay-200" style={{ opacity: 0 }} data-animate="true">
-              <p className="text-3xl lg:text-4xl font-extrabold text-gray-900">10.000+</p>
+              <p className="text-3xl lg:text-4xl font-extrabold text-white">10.000+</p>
               <p className="text-gray-500 text-xs font-semibold tracking-wider uppercase mt-2">Booking Selesai</p>
             </div>
             <div className="animate-count-up delay-400" style={{ opacity: 0 }} data-animate="true">
-              <p className="text-3xl lg:text-4xl font-extrabold text-gray-900 flex items-center justify-center gap-1">
+              <p className="text-3xl lg:text-4xl font-extrabold text-white flex items-center justify-center gap-1">
                 4.9
                 <svg className="w-6 h-6 text-yellow-400" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
@@ -240,14 +243,14 @@ const Landing = () => {
       </section>
 
       {/* ===== FEATURED COURTS SECTION ===== */}
-      <section id="lapangan" className="bg-gray-50 py-16 lg:py-24">
+      <section id="lapangan" className="bg-[#0a1128] py-16 lg:py-24">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex items-end justify-between mb-12">
             <div>
-              <h2 className="text-3xl lg:text-4xl font-extrabold text-gray-900 mb-3">Lapangan Unggulan</h2>
-              <p className="text-gray-500 text-base">Pilihan terbaik untuk performa kelas dunia</p>
+              <h2 className="text-3xl lg:text-4xl font-extrabold text-white mb-3">Lapangan Unggulan</h2>
+              <p className="text-gray-400 text-base">Pilihan terbaik untuk performa kelas dunia</p>
             </div>
-            <a href="#" className="hidden md:flex items-center gap-2 text-brand-600 font-semibold text-sm hover:text-brand-700 transition-colors group">
+            <a href="#" className="hidden md:flex items-center gap-2 text-brand-400 font-semibold text-sm hover:text-brand-300 transition-colors group">
               Lihat Semua
               <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
                 <path d="M5 12h14M12 5l7 7-7 7" />
@@ -257,22 +260,21 @@ const Landing = () => {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {lapanganUnggulan.map((lapangan, index) => (
-              <div key={index} className="court-card bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100">
-                <div className="relative h-52 overflow-hidden bg-gradient-to-br from-gray-200 to-gray-300">
-                  <div className="w-full h-full flex items-center justify-center">
-                    <div className="text-center">
-                      <img src={lapangan.gambar} alt={lapangan.nama} className="w-full h-full object-cover" />
-                    </div>
-                  </div>
+              <div key={index} className="court-card bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:border-brand-500/50 transition-colors">
+                <div className="relative h-52 overflow-hidden bg-gradient-to-br from-navy-800 to-navy-900">
+                  <img src={lapangan.gambar} alt={lapangan.nama} className="w-full h-full object-cover" />
+                  <span className="absolute top-3 left-3 text-[10px] font-bold uppercase tracking-wider bg-brand-600/90 text-white px-2.5 py-1 rounded-full">
+                    {lapangan.jenis}
+                  </span>
                 </div>
                 <div className="p-5">
                   <div className="flex items-center justify-between mb-2">
-                    <h3 className="font-bold text-gray-900 text-lg">{lapangan.nama}</h3>
-                    <div className="flex items-center gap-1 bg-yellow-50 px-2.5 py-1 rounded-lg">
+                    <h3 className="font-bold text-white text-lg">{lapangan.nama}</h3>
+                    <div className="flex items-center gap-1 bg-yellow-400/10 px-2.5 py-1 rounded-lg">
                       <svg className="w-3.5 h-3.5 text-yellow-400" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
                       </svg>
-                      <span className="text-yellow-700 text-xs font-bold">{lapangan.rating}</span>
+                      <span className="text-yellow-300 text-xs font-bold">{lapangan.rating}</span>
                     </div>
                   </div>
                   <div className="flex items-center gap-1.5 text-gray-400 text-sm mb-4">
@@ -284,8 +286,8 @@ const Landing = () => {
                   </div>
                   <div className="flex items-end justify-between">
                     <div>
-                      <span className="text-2xl font-extrabold text-brand-600">Rp {lapangan.harga}</span>
-                      <span className="text-gray-400 text-sm">/jam</span>
+                      <span className="text-2xl font-extrabold text-brand-400">Rp {lapangan.harga}</span>
+                      <span className="text-gray-500 text-sm">/jam</span>
                     </div>
                   </div>
                   <Link to="/detail" state={{ lapangan }} className="btn-primary w-full mt-4 py-2.5 text-white font-semibold rounded-xl text-sm flex items-center justify-center transition-opacity hover:opacity-90">
@@ -299,11 +301,11 @@ const Landing = () => {
       </section>
 
       {/* ===== HOW TO ORDER SECTION ===== */}
-      <section id="cara-pesan" className="bg-white py-16 lg:py-24">
+      <section id="cara-pesan" className="bg-[#060d1f] border-t border-white/10 py-16 lg:py-24">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-extrabold text-gray-900 mb-4">Cara Pesan Lapangan</h2>
-            <p className="text-gray-500 text-base max-w-lg mx-auto">Proses mudah dan cepat untuk mulai bertanding</p>
+            <h2 className="text-3xl lg:text-4xl font-extrabold text-white mb-4">Cara Pesan Lapangan</h2>
+            <p className="text-gray-400 text-base max-w-lg mx-auto">Proses mudah dan cepat untuk mulai bertanding</p>
           </div>
 
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-10 max-w-4xl mx-auto">
@@ -314,7 +316,7 @@ const Landing = () => {
                     {langkah.icon}
                   </svg>
                 </div>
-                <h3 className="font-bold text-gray-900 text-sm mb-2">{langkah.title}</h3>
+                <h3 className="font-bold text-white text-sm mb-2">{langkah.title}</h3>
                 <p className="text-gray-400 text-xs leading-relaxed">{langkah.desc}</p>
               </div>
             ))}

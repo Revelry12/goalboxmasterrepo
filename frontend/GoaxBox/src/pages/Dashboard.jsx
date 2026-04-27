@@ -1,8 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 const Dashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { user, logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+    window.location.replace('/');
+  };
   const revenueChartRef = useRef(null);
   const statusChartRef = useRef(null);
 
@@ -248,14 +255,17 @@ const Dashboard = () => {
 
         {/* Logout */}
         <div className="px-4 py-5 border-t border-white/5">
-          <Link to="/login" className="sidebar-item flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-gray-400 hover:text-red-400 w-full transition-colors">
+          <button
+            onClick={handleLogout}
+            className="sidebar-item flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-gray-400 hover:text-red-400 w-full transition-colors"
+          >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
               <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" />
               <polyline points="16,17 21,12 16,7" />
               <line x1="21" y1="12" x2="9" y2="12" />
             </svg>
             Logout
-          </Link>
+          </button>
         </div>
       </aside>
 
@@ -301,11 +311,11 @@ const Dashboard = () => {
               {/* Profile */}
               <div className="flex items-center gap-3 pl-4 border-l border-white/10">
                 <div className="text-right hidden sm:block">
-                  <p className="text-sm font-semibold text-white">Admin Utama</p>
-                  <p className="text-xs text-gray-500">Super Admin</p>
+                  <p className="text-sm font-semibold text-white">{user?.name ?? 'Admin'}</p>
+                  <p className="text-xs text-gray-500">{user?.role === 'admin' ? 'Super Admin' : 'User'}</p>
                 </div>
                 <div className="w-9 h-9 rounded-full bg-gradient-to-br from-brand-500 to-purple-600 flex items-center justify-center text-white font-bold text-sm">
-                  A
+                  {(user?.name ?? 'A').charAt(0).toUpperCase()}
                 </div>
               </div>
             </div>
