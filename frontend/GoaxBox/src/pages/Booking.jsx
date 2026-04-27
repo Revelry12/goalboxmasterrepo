@@ -111,40 +111,37 @@ const Booking = () => {
     return arr;
   }, [booked, jamBukaH, jamTutupH]);
 
-  const toggleSlot = (slot) => {
-    if (slot.isBooked) return;
-    if (!jamMulai) {
-      setJamMulai(slot.start);
-      setJamSelesai(slot.end);
-      return;
-    }
-    if (slot.start === jamMulai) {
-      setJamMulai('');
-      setJamSelesai('');
-      return;
-    }
-    // extend selection: pick earliest start, latest end
-    const startH = Math.min(parseInt(jamMulai.split(':')[0], 10), parseInt(slot.start.split(':')[0], 10));
-    const endH = Math.max(parseInt(jamSelesai.split(':')[0], 10), parseInt(slot.end.split(':')[0], 10));
+  // Jam Mulai dropdown options: any non-booked slot
+  const jamMulaiOptions = useMemo(
+    () => slots.filter(s => !s.isBooked).map(s => s.start),
+    [slots]
+  );
 
-    // ensure no booked slot between
-    let blocked = false;
-    for (let h = startH; h < endH; h++) {
-      const s = `${String(h).padStart(2, '0')}:00`;
-      const e = `${String(h + 1).padStart(2, '0')}:00`;
-      if (slots.find(x => x.start === s && x.end === e)?.isBooked) {
-        blocked = true;
-        break;
+  // Jam Selesai dropdown options: must be > jamMulai AND no booked slot between
+  const jamSelesaiOptions = useMemo(() => {
+    if (!jamMulai) return [];
+    const startH = parseInt(jamMulai.split(':')[0], 10);
+    const opts = [];
+    for (let h = startH + 1; h <= jamTutupH; h++) {
+      // verify all hours from startH..h-1 are not booked
+      let blocked = false;
+      for (let g = startH; g < h; g++) {
+        const s = `${String(g).padStart(2, '0')}:00`;
+        const slot = slots.find(x => x.start === s);
+        if (slot?.isBooked) { blocked = true; break; }
       }
+      if (blocked) break;
+      opts.push(`${String(h).padStart(2, '0')}:00`);
     }
-    if (blocked) {
-      setJamMulai(slot.start);
-      setJamSelesai(slot.end);
-      return;
+    return opts;
+  }, [jamMulai, slots, jamTutupH]);
+
+  // Auto-clear jam_selesai if it becomes invalid after jam_mulai changes
+  useEffect(() => {
+    if (jamSelesai && !jamSelesaiOptions.includes(jamSelesai)) {
+      setJamSelesai('');
     }
-    setJamMulai(`${String(startH).padStart(2, '0')}:00`);
-    setJamSelesai(`${String(endH).padStart(2, '0')}:00`);
-  };
+  }, [jamSelesaiOptions, jamSelesai]);
 
   const isSlotSelected = (slot) => {
     if (!jamMulai || !jamSelesai) return false;
@@ -274,7 +271,7 @@ const Booking = () => {
         {step === 1 && (
           <section className="space-y-6">
             <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
-              <label className="block text-sm font-medium text-gray-300 mb-2">Tanggal</label>
+              <label className="block text-sm font-semibold text-white mb-2">1. Tanggal Bermain</label>
               <input
                 type="date"
                 min={todayStr()}
@@ -285,42 +282,80 @@ const Booking = () => {
             </div>
 
             <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
-              <h3 className="text-sm font-semibold text-white mb-4">Pilih Slot Jam (klik dua slot untuk durasi lebih dari 1 jam)</h3>
+              <label className="block text-sm font-semibold text-white mb-1">2. Jam Mulai &amp; Jam Selesai</label>
+              <p className="text-xs text-gray-500 mb-4">Pilih jam mulai, lalu pilih jam selesai. Slot yang sudah dipesan otomatis tidak muncul di pilihan.</p>
+
               {availLoading ? (
                 <div className="text-gray-500 text-sm py-8 text-center">Mengecek ketersediaan...</div>
               ) : (
-                <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2">
-                  {slots.map((slot) => {
-                    const selected = isSlotSelected(slot);
-                    return (
-                      <button
-                        key={slot.start}
-                        type="button"
-                        disabled={slot.isBooked}
-                        onClick={() => toggleSlot(slot)}
-                        className={`text-xs font-medium text-center py-3 rounded-lg border transition-colors ${
-                          slot.isBooked
-                            ? 'bg-white/5 text-gray-500 border-transparent line-through cursor-not-allowed'
-                            : selected
-                              ? 'bg-brand-600 text-white border-brand-500'
-                              : 'bg-brand-900/30 text-brand-300 border-brand-500/20 hover:bg-brand-900/50'
-                        }`}
+                <>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
+                    <div>
+                      <label className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-1.5 block">Jam Mulai</label>
+                      <select
+                        value={jamMulai}
+                        onChange={(e) => setJamMulai(e.target.value)}
+                        className="w-full bg-[#0a1128] border border-white/10 rounded-lg px-4 py-2.5 text-white text-sm focus:outline-none focus:border-brand-500"
                       >
-                        {slot.start}
-                      </button>
-                    );
-                  })}
-                </div>
+                        <option value="">— pilih jam mulai —</option>
+                        {jamMulaiOptions.map(t => (
+                          <option key={t} value={t}>{t}</option>
+                        ))}
+                      </select>
+                    </div>
+                    <div>
+                      <label className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-1.5 block">Jam Selesai</label>
+                      <select
+                        value={jamSelesai}
+                        onChange={(e) => setJamSelesai(e.target.value)}
+                        disabled={!jamMulai}
+                        className="w-full bg-[#0a1128] border border-white/10 rounded-lg px-4 py-2.5 text-white text-sm focus:outline-none focus:border-brand-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        <option value="">— pilih jam selesai —</option>
+                        {jamSelesaiOptions.map(t => (
+                          <option key={t} value={t}>{t}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
+                  {jamMulaiOptions.length === 0 && (
+                    <div className="text-orange-400 text-xs bg-orange-500/10 border border-orange-500/20 rounded-lg p-3 mb-4">
+                      Tidak ada slot tersedia untuk tanggal ini. Coba pilih tanggal lain.
+                    </div>
+                  )}
+
+                  {/* Visual indicator only — read-only */}
+                  <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-2">Peta Ketersediaan</p>
+                  <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2">
+                    {slots.map((slot) => {
+                      const selected = isSlotSelected(slot);
+                      const cls = slot.isBooked
+                        ? 'bg-red-500/10 text-red-400/70 border-red-500/20 line-through'
+                        : selected
+                          ? 'bg-emerald-500 text-white border-emerald-400 font-bold'
+                          : 'bg-white/5 text-gray-300 border-white/10';
+                      return (
+                        <div
+                          key={slot.start}
+                          className={`text-xs font-medium text-center py-2.5 rounded-lg border ${cls}`}
+                        >
+                          {slot.start}
+                        </div>
+                      );
+                    })}
+                  </div>
+                  <div className="flex items-center gap-4 mt-4 text-[11px] font-medium text-gray-400 flex-wrap">
+                    <div className="flex items-center gap-1.5"><div className="w-3 h-3 rounded bg-white/10 border border-white/20"></div><span>TERSEDIA</span></div>
+                    <div className="flex items-center gap-1.5"><div className="w-3 h-3 rounded bg-emerald-500"></div><span>JAM ANDA</span></div>
+                    <div className="flex items-center gap-1.5"><div className="w-3 h-3 rounded bg-red-500/20 border border-red-500/30"></div><span>SUDAH DIPESAN</span></div>
+                  </div>
+                </>
               )}
-              <div className="flex items-center gap-4 mt-4 text-[11px] font-medium text-gray-400">
-                <div className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full bg-brand-500"></div><span>TERSEDIA</span></div>
-                <div className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full bg-brand-600"></div><span>DIPILIH</span></div>
-                <div className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full border border-gray-600"></div><span>SUDAH DIPESAN</span></div>
-              </div>
             </div>
 
             <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
-              <label className="block text-sm font-medium text-gray-300 mb-2">Catatan (opsional)</label>
+              <label className="block text-sm font-semibold text-white mb-2">3. Catatan <span className="text-gray-500 font-normal">(opsional)</span></label>
               <textarea
                 rows={3}
                 maxLength={500}
@@ -332,6 +367,15 @@ const Booking = () => {
             </div>
 
             <div className="bg-gradient-to-br from-brand-900/40 to-[#111a36] border border-brand-500/30 rounded-2xl p-6">
+              {(!jamMulai || !jamSelesai) && (
+                <p className="text-xs text-gray-400 mb-3 flex items-center gap-1.5">
+                  <svg className="w-3.5 h-3.5 text-brand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                    <circle cx="12" cy="12" r="10" />
+                    <path d="M12 16v-4M12 8h.01" />
+                  </svg>
+                  Pilih jam mulai &amp; jam selesai untuk melanjutkan.
+                </p>
+              )}
               <div className="flex items-center justify-between mb-2">
                 <span className="text-gray-300 text-sm">Durasi</span>
                 <span className="text-white font-semibold">{durasi} Jam</span>
