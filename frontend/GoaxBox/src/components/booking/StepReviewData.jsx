@@ -6,9 +6,9 @@ const MONTHS_ID = [
 ];
 const DAYS_ID = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
 
-const StepReviewData = ({ bookingData, setBookingData, onNext, onBack }) => {
+const StepReviewData = ({ bookingData, setBookingData, onNext, onBack, pricePerHour = 100000 }) => {
   const totalHours = (bookingData.slots || []).length;
-  const totalPrice = totalHours * 100000;
+  const totalPrice = totalHours * pricePerHour;
   const firstSlotStart = bookingData.slots?.length > 0 ? bookingData.slots[0].split(' - ')[0] : null;
   const lastSlotEnd = bookingData.slots?.length > 0 ? bookingData.slots[bookingData.slots.length - 1].split(' - ')[1] : null;
 

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -8,16 +9,24 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const location = useLocation();
+  const { login } = useAuth();
+
+  const from = location.state?.from;
 
   const handleLogin = (e) => {
     e.preventDefault();
     setIsLoading(true);
     setError('');
 
-    // Mock login logic
     setTimeout(() => {
       if (email === 'admin@goalbox.com' && password === 'password') {
-        navigate('/dashboard');
+        login();
+        if (from) {
+          navigate(from.pathname, { state: from.state, replace: true });
+        } else {
+          navigate('/dashboard');
+        }
       } else {
         setError('Kredensial tidak valid. Silakan coba lagi.');
         setIsLoading(false);

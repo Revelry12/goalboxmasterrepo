@@ -285,7 +285,7 @@ const Landing = () => {
                       <span className="text-gray-400 text-sm">/jam</span>
                     </div>
                   </div>
-                  <Link to="/detail" className="btn-primary w-full mt-4 py-2.5 text-white font-semibold rounded-xl text-sm flex items-center justify-center transition-opacity hover:opacity-90">
+                  <Link to="/detail" state={{ lapangan }} className="btn-primary w-full mt-4 py-2.5 text-white font-semibold rounded-xl text-sm flex items-center justify-center transition-opacity hover:opacity-90">
                     Pesan Sekarang
                   </Link>
                 </div>

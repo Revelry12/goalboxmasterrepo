@@ -48,13 +48,13 @@ const PAYMENT_METHODS = [
   },
 ];
 
-const StepPayment = ({ bookingData, setBookingData, onNext, onBack }) => {
+const StepPayment = ({ bookingData, setBookingData, onNext, onBack, pricePerHour = 100000 }) => {
   const [timeLeft, setTimeLeft] = useState(30 * 60); // 30 minutes
   const [uploadedFile, setUploadedFile] = useState(null);
   const fileInputRef = useRef(null);
 
   const totalHours = (bookingData.slots || []).length;
-  const totalPrice = totalHours * 100000;
+  const totalPrice = totalHours * pricePerHour;
   const serviceFee = 5000;
   const grandTotal = totalPrice + serviceFee;
   const firstSlotStart = bookingData.slots?.length > 0 ? bookingData.slots[0].split(' - ')[0] : null;

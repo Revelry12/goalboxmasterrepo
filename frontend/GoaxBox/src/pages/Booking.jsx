@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import StepTimeSelection from '../components/booking/StepTimeSelection';
@@ -37,6 +37,12 @@ const STEPS = [
 ];
 
 const Booking = () => {
+  const { state } = useLocation();
+  const lapangan = state?.lapangan;
+  const pricePerHour = lapangan?.harga
+    ? parseInt(lapangan.harga.replace(/\./g, ''), 10)
+    : 100000;
+
   const [currentStep, setCurrentStep] = useState(1);
   const [bookingData, setBookingData] = useState({
     date: null,
@@ -116,6 +122,7 @@ const Booking = () => {
             bookingData={bookingData}
             setBookingData={setBookingData}
             onNext={goNext}
+            pricePerHour={pricePerHour}
           />
         )}
         {currentStep === 2 && (
@@ -124,6 +131,7 @@ const Booking = () => {
             setBookingData={setBookingData}
             onNext={goNext}
             onBack={goBack}
+            pricePerHour={pricePerHour}
           />
         )}
         {currentStep === 3 && (
@@ -132,6 +140,7 @@ const Booking = () => {
             setBookingData={setBookingData}
             onNext={goNext}
             onBack={goBack}
+            pricePerHour={pricePerHour}
           />
         )}
         {currentStep === 4 && (

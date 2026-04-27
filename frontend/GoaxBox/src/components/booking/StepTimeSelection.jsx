@@ -1,6 +1,5 @@
 import React, { useState, useMemo } from 'react';
 
-const PRICE_PER_HOUR = 100000;
 
 const ALL_SLOTS = [
   '08:00 - 09:00', '09:00 - 10:00', '10:00 - 11:00',
@@ -19,7 +18,8 @@ const MONTHS_ID = [
   'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember',
 ];
 
-const StepTimeSelection = ({ bookingData, setBookingData, onNext }) => {
+const StepTimeSelection = ({ bookingData, setBookingData, onNext, pricePerHour = 100000 }) => {
+  const PRICE_PER_HOUR = pricePerHour;
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 

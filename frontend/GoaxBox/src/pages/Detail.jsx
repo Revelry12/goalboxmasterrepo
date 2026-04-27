@@ -1,9 +1,16 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
 const Detail = () => {
+  const { state } = useLocation();
+  const lapangan = state?.lapangan ?? {
+    nama: 'Lapangan Makmur Jaya',
+    harga: '100.000',
+    lokasi: 'Jl. Raya Makmur Suri No. 123',
+    rating: '4.8',
+  };
   const fasilitasArena = [
     {
       nama: 'Parkir',
@@ -306,7 +313,7 @@ const Detail = () => {
               <div className="bg-gradient-to-br from-navy-900 to-[#111a36] border border-white/10 rounded-2xl p-6">
                 <p className="text-[11px] font-semibold text-gray-500 uppercase tracking-widest mb-1">Harga Sewa</p>
                 <div className="flex items-end gap-1 mb-6">
-                  <span className="text-3xl font-extrabold text-white">Rp 100.000</span>
+                  <span className="text-3xl font-extrabold text-white">Rp {lapangan.harga}</span>
                   <span className="text-sm text-gray-400 mb-1">/ jam</span>
                 </div>
 
@@ -348,7 +355,7 @@ const Detail = () => {
                     </div>
                   </div>
 
-                  <Link to="/booking" className="w-full bg-brand-200 hover:bg-brand-300 text-brand-900 font-bold py-3.5 rounded-xl transition-colors flex items-center justify-center gap-2">
+                  <Link to="/booking" state={{ lapangan }} className="w-full bg-brand-200 hover:bg-brand-300 text-brand-900 font-bold py-3.5 rounded-xl transition-colors flex items-center justify-center gap-2">
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
                     </svg>
