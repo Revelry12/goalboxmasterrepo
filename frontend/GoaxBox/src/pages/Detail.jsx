@@ -98,7 +98,7 @@ const Detail = () => {
           <span>/</span>
           <a href="/#lapangan" className="hover:text-white transition-colors">Lapangan</a>
           <span>/</span>
-          <span className="text-brand-400" aria-current="page">Lapangan Makmur Jaya</span>
+          <span className="text-brand-400" aria-current="page">{lapangan.nama}</span>
         </nav>
 
         {/* Image Gallery */}
@@ -143,7 +143,7 @@ const Detail = () => {
             {/* Header Info */}
             <header className="border-b border-white/10 pb-6">
               <div className="flex items-start justify-between gap-4 mb-3">
-                <h1 className="text-3xl font-bold text-white">Lapangan Makmur Jaya</h1>
+                <h1 className="text-3xl font-bold text-white">{lapangan.nama}</h1>
               </div>
               <div className="flex items-center gap-2 text-sm text-gray-400">
                 <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">

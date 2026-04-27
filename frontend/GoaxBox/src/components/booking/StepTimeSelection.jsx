@@ -18,8 +18,11 @@ const MONTHS_ID = [
   'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember',
 ];
 
-const StepTimeSelection = ({ bookingData, setBookingData, onNext, pricePerHour = 100000 }) => {
+const StepTimeSelection = ({ bookingData, setBookingData, onNext, pricePerHour = 100000, lapangan }) => {
   const PRICE_PER_HOUR = pricePerHour;
+  const lapanganNama = lapangan?.nama ?? 'Lapangan Makmur Jaya';
+  const lapanganLokasi = lapangan?.lokasi ?? 'Jl. Raya Mekar Sari No. 123, Batam';
+  const lapanganHarga = lapangan?.harga ?? '100.000';
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
@@ -107,16 +110,16 @@ const StepTimeSelection = ({ bookingData, setBookingData, onNext, pricePerHour =
             <img src="/image.png" alt="Lapangan" className="w-full h-full object-cover" />
           </div>
           <div>
-            <h2 className="text-white font-bold text-lg">Lapangan Makmur Jaya</h2>
+            <h2 className="text-white font-bold text-lg">{lapanganNama}</h2>
             <div className="flex items-center gap-1.5 text-gray-400 text-sm mt-1">
               <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
                 <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
                 <circle cx="12" cy="10" r="3" />
               </svg>
-              Jl. Raya Mekar Sari No. 123, Batam
+              {lapanganLokasi}
             </div>
             <p className="text-brand-400 font-bold text-lg mt-2">
-              Rp 100.000 <span className="text-gray-500 text-sm font-normal">/ jam</span>
+              Rp {lapanganHarga} <span className="text-gray-500 text-sm font-normal">/ jam</span>
             </p>
           </div>
         </div>
@@ -253,7 +256,7 @@ const StepTimeSelection = ({ bookingData, setBookingData, onNext, pricePerHour =
 
             <div className="space-y-4 mb-6">
               <div>
-                <p className="text-white font-semibold">Lapangan Makmur Jaya</p>
+                <p className="text-white font-semibold">{lapanganNama}</p>
                 <p className="text-gray-400 text-sm mt-1">{formatDateDisplay(bookingData.date)}</p>
                 {firstSlotStart && (
                   <p className="text-brand-400 text-sm font-semibold mt-0.5">
@@ -275,7 +278,7 @@ const StepTimeSelection = ({ bookingData, setBookingData, onNext, pricePerHour =
 
             <div className="border-t border-white/10 pt-4 space-y-3">
               <div className="flex items-center justify-between text-sm">
-                <span className="text-gray-400">{totalHours} jam × Rp 100.000</span>
+                <span className="text-gray-400">{totalHours} jam × Rp {lapanganHarga}</span>
                 <span className="text-white font-medium">{formatRupiah(totalPrice)}</span>
               </div>
               <div className="flex items-center justify-between text-sm">

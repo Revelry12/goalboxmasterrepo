@@ -172,7 +172,10 @@ const Landing = () => {
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
-                  <button className="btn-primary flex-1 py-3 text-white font-semibold rounded-xl flex items-center justify-center gap-2 text-sm">
+                  <button
+                    className="btn-primary flex-1 py-3 text-white font-semibold rounded-xl flex items-center justify-center gap-2 text-sm"
+                    onClick={() => document.getElementById('lapangan')?.scrollIntoView({ behavior: 'smooth' })}
+                  >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
                       <circle cx="11" cy="11" r="8" />
                       <path d="M21 21l-4.35-4.35" />

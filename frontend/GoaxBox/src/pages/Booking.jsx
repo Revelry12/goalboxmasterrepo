@@ -123,6 +123,7 @@ const Booking = () => {
             setBookingData={setBookingData}
             onNext={goNext}
             pricePerHour={pricePerHour}
+            lapangan={lapangan}
           />
         )}
         {currentStep === 2 && (
