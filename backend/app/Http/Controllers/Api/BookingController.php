@@ -18,11 +18,41 @@ class BookingController extends Controller
 {
     public function index(Request $request): JsonResponse
     {
-        $bookings = Booking::query()
+        $status = $request->query('status');
+        $search = $request->query('search');
+
+        $query = Booking::query()
             ->with(['lapangan:id,nama,jenis', 'payment'])
-            ->where('user_id', $request->user()->id)
-            ->orderByDesc('id')
-            ->paginate(15);
+            ->where('user_id', $request->user()->id);
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('kode_booking', 'like', "%{$search}%")
+                  ->orWhereHas('lapangan', function ($qLap) use ($search) {
+                      $qLap->where('nama', 'like', "%{$search}%");
+                  });
+            });
+        }
+
+        if ($status && $status !== 'semua') {
+            $today = now()->toDateString();
+            
+            switch ($status) {
+                case 'aktif':
+                    $query->whereIn('status_booking', [Booking::STATUS_PENDING, Booking::STATUS_MENUNGGU_VERIFIKASI, Booking::STATUS_CONFIRMED])
+                          ->whereDate('tanggal', '>=', $today);
+                    break;
+                case 'selesai':
+                    $query->where('status_booking', Booking::STATUS_CONFIRMED)
+                          ->whereDate('tanggal', '<', $today);
+                    break;
+                case 'dibatalkan':
+                    $query->whereIn('status_booking', [Booking::STATUS_CANCELLED, Booking::STATUS_EXPIRED]);
+                    break;
+            }
+        }
+
+        $bookings = $query->orderByDesc('id')->paginate(15);
 
         return response()->json(['data' => $bookings]);
     }

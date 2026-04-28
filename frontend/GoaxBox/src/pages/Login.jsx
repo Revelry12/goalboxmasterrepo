@@ -130,7 +130,7 @@ const Login = () => {
             <h2 className="text-3xl font-bold text-white mb-2">Masuk</h2>
             <p className="text-gray-400 mb-8">
               Belum punya akun?{' '}
-              <Link to="#" className="text-brand-400 font-semibold hover:text-brand-300 transition-colors">Daftar sekarang</Link>
+              <Link to="/register" className="text-brand-400 font-semibold hover:text-brand-300 transition-colors">Daftar sekarang</Link>
             </p>
 
             {/* Error Messages */}

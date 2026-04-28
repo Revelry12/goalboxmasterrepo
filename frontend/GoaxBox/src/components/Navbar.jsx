@@ -24,11 +24,8 @@ const Navbar = ({ className = '' }) => {
         <div className="flex items-center justify-between h-18">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-lg bg-brand-600 flex items-center justify-center">
-              <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="10" strokeWidth="2" />
-                <path strokeWidth="2" d="M8 12l2-6h4l2 6-2 6h-4l-2-6z" />
-              </svg>
+            <div className="w-9 h-9 flex items-center justify-center">
+              <img src="/Icon.svg" alt="GoalBox Logo" className="w-full h-full object-cover" />
             </div>
             <span className="text-white text-lg font-bold tracking-tight uppercase">GoalBox</span>
           </Link>
@@ -39,6 +36,9 @@ const Navbar = ({ className = '' }) => {
             <a href="/#lapangan" className="text-gray-300 hover:text-white transition-colors text-sm font-medium">Lapangan</a>
             <a href="/#cara-pesan" className="text-gray-300 hover:text-white transition-colors text-sm font-medium">Cara Pesan</a>
             <a href="/#tentang" className="text-gray-300 hover:text-white transition-colors text-sm font-medium">Tentang Kami</a>
+            {isLoggedIn && !isAdmin && (
+              <Link to="/bookings" className="text-brand-400 hover:text-brand-300 transition-colors text-sm font-bold">Riwayat Booking</Link>
+            )}
           </div>
 
           {/* Auth Buttons */}
@@ -76,7 +76,7 @@ const Navbar = ({ className = '' }) => {
             ) : (
               <>
                 <Link to="/login" className="text-gray-300 hover:text-white transition-colors text-sm font-medium px-4 py-2">Masuk</Link>
-                <Link to="/login" className="bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold px-5 py-2.5 rounded-lg transition-all hover:shadow-lg hover:shadow-brand-600/25">Daftar</Link>
+                <Link to="/register" className="bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold px-5 py-2.5 rounded-lg transition-all hover:shadow-lg hover:shadow-brand-600/25">Daftar</Link>
               </>
             )}
           </div>
@@ -100,6 +100,9 @@ const Navbar = ({ className = '' }) => {
           <a href="/#lapangan" className="block text-gray-300 hover:text-white transition-colors text-sm font-medium py-2">Lapangan</a>
           <a href="/#cara-pesan" className="block text-gray-300 hover:text-white transition-colors text-sm font-medium py-2">Cara Pesan</a>
           <a href="/#tentang" className="block text-gray-300 hover:text-white transition-colors text-sm font-medium py-2">Tentang Kami</a>
+          {isLoggedIn && !isAdmin && (
+            <Link to="/bookings" className="block text-brand-400 hover:text-brand-300 transition-colors text-sm font-bold py-2">Riwayat Booking</Link>
+          )}
           <hr className="border-white/10" />
           {isLoggedIn ? (
             <button
@@ -114,7 +117,7 @@ const Navbar = ({ className = '' }) => {
           ) : (
             <>
               <Link to="/login" className="block text-gray-300 hover:text-white transition-colors text-sm font-medium py-2">Masuk</Link>
-              <Link to="/login" className="block bg-brand-600 text-white text-sm font-semibold px-5 py-2.5 rounded-lg text-center">Daftar</Link>
+              <Link to="/register" className="block bg-brand-600 text-white text-sm font-semibold px-5 py-2.5 rounded-lg text-center">Daftar</Link>
             </>
           )}
         </div>
